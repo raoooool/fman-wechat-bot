@@ -1,7 +1,18 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
+import { db, webhook } from '../secret';
 
 export default (appInfo: EggAppInfo) => {
-  const config = {} as PowerPartial<EggAppConfig>;
+  const config = {
+    webhookUrl: webhook.url,
+    mongoose: {
+      client: {
+        url: db.url,
+        options: {},
+        // mongoose global plugins, expected a function or an array of function and options
+        // plugins: [createdPlugin, [updatedPlugin, pluginOptions]],
+      },
+    },
+  } as PowerPartial<EggAppConfig>;
 
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
